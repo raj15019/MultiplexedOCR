@@ -13,7 +13,7 @@ from multiplexer.utils.comm import is_main_process, synchronize
 
 
 # very similar to https://github.com/pytorch/pytorch/blob/master/torch/utils/model_zoo.py
-# but with a few improvements and modifications
+# but with a few improvements and modifications >
 def cache_url(url, model_dir=None, progress=True):
     r"""Loads the Torch serialized object at the given URL.
     If the object is already present in `model_dir`, it's deserialized and
