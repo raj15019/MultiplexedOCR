@@ -11,6 +11,15 @@
 // KRR: Commented below line
 // #include <THC/THC.h>
 
+//KRR: Replaced with
+// https://stackoverflow.com/questions/72988735/replacing-thc-thc-h-module-to-aten-aten-h-module
+// THCCeilDiv can be replaced by common.hpp
+// THCudaCheck can be replaced by AT_CUDA_CHECK (github.com/CoinCheung/pytorch-loss/pull/37)
+
+#include <ATen/cuda/CUDAContext.h>
+#include <ATen/cuda/CUDAEvent.h>
+// cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+
 #include <iostream>
 #include <vector>
 
@@ -108,9 +117,7 @@ at::Tensor nms_cuda(const at::Tensor boxes, float nms_overlap_thresh) {
 
   std::vector<unsigned long long> mask_host(boxes_num * col_blocks);
   // KRR: Commented below line
-  // THCudaCheck(cudaMemcpy(&mask_host[0], mask_dev,
-                         sizeof(unsigned long long) * boxes_num * col_blocks,
-                         cudaMemcpyDeviceToHost));
+  // THCudaCheck(cudaMemcpy(&mask_host[0], mask_dev, sizeof(unsigned long long) * boxes_num * col_blocks, cudaMemcpyDeviceToHost));
   
   // KRR: Adding below one line
   TORCH_CHECK(cudaMalloc((void**) &mask_dev, boxes_num * col_blocks * sizeof(unsigned long long)) == cudaSuccess);
