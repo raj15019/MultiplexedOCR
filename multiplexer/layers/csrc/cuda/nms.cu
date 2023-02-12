@@ -2,10 +2,13 @@
 #include <ATen/ATen.h>
 #include <ATen/cuda/CUDAContext.h>
 
-#include "ceil_div.h"
+// KRR: Commented below line
+// #include "ceil_div.h"
 // TODO: use the following instead once it's available under torch/include/ATen
-// #include <ATen/ceil_div.h>
+// KRR: Removed comment for below line
+#include <ATen/ceil_div.h>
 
+// KRR: Commented below line
 // #include <THC/THC.h>
 
 #include <iostream>
@@ -91,8 +94,11 @@ at::Tensor nms_cuda(const at::Tensor boxes, float nms_overlap_thresh) {
   // THCudaCheck(THCudaMalloc(state, (void**) &mask_dev,
   //                      boxes_num * col_blocks * sizeof(unsigned long long)));
 
-  mask_dev = (unsigned long long *)THCudaMalloc(
-      state, boxes_num * col_blocks * sizeof(unsigned long long));
+  // KRR: Commenting beow line
+  // mask_dev = (unsigned long long *)THCudaMalloc(state, boxes_num * col_blocks * sizeof(unsigned long long));
+  
+  // KRR: Adding below line
+  mask_dev = (unsigned long long *)cudaMalloc(state, boxes_num * col_blocks * sizeof(unsigned long long));
 
   dim3 blocks(at::ceil_div(boxes_num, threadsPerBlock),
               at::ceil_div(boxes_num, threadsPerBlock));
@@ -101,9 +107,13 @@ at::Tensor nms_cuda(const at::Tensor boxes, float nms_overlap_thresh) {
                                   mask_dev);
 
   std::vector<unsigned long long> mask_host(boxes_num * col_blocks);
-  THCudaCheck(cudaMemcpy(&mask_host[0], mask_dev,
+  // KRR: Commented below line
+  // THCudaCheck(cudaMemcpy(&mask_host[0], mask_dev,
                          sizeof(unsigned long long) * boxes_num * col_blocks,
                          cudaMemcpyDeviceToHost));
+  
+  // KRR: Adding below one line
+  TORCH_CHECK(cudaMalloc((void**) &mask_dev, boxes_num * col_blocks * sizeof(unsigned long long)) == cudaSuccess);
 
   std::vector<unsigned long long> remv(col_blocks);
   memset(&remv[0], 0, sizeof(unsigned long long) * col_blocks);
@@ -126,7 +136,11 @@ at::Tensor nms_cuda(const at::Tensor boxes, float nms_overlap_thresh) {
     }
   }
 
-  THCudaFree(state, mask_dev);
+  // KRR: Commented below line
+  // THCudaFree(state, mask_dev);
+  // KRR: Adding below line
+  cudaFree(mask_dev);
+  
   // TODO improve this part
   return std::get<0>(
       order_t
