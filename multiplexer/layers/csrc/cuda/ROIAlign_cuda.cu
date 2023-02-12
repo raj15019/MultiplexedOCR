@@ -2,8 +2,16 @@
 #include <ATen/ATen.h>
 #include <ATen/cuda/CUDAContext.h>
 
-#include <THC/THC.h>
+// KRR: Adding below comment
+// #include <THC/THC.h>
+
 #include <THC/THCAtomics.cuh>
+
+// KRR: Adding below lines
+//Replace with
+#include <ATen/cuda/CUDAContext.h>
+#include <ATen/cuda/CUDAEvent.h>
+//cudaStream_t stream = at::cuda::getCurrentCUDAStream();
 
 #include "ceil_div.h"
 // TODO: use the following instead once it's available under torch/include/ATen
