@@ -2,9 +2,6 @@
 import os
 import sys
 
-// from torch.hub import HASH_REGEX, _download_url_to_file, urlparse
-
-
 try:
     from torch.hub import HASH_REGEX, download_url_to_file, urlparse
 except ImportError:
