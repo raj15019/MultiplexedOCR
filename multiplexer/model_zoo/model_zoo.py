@@ -2,10 +2,13 @@
 import os
 import sys
 
+// from torch.hub import HASH_REGEX, _download_url_to_file, urlparse
+
+
 try:
-    from torch.hub import HASH_REGEX, _download_url_to_file, urlparse
+    from torch.hub import HASH_REGEX, download_url_to_file, urlparse
 except ImportError:
-    from torch.utils.model_zoo import _download_url_to_file
+    from torch.utils.model_zoo import download_url_to_file
     from torch.utils.model_zoo import urlparse
     from torch.utils.model_zoo import HASH_REGEX
 
