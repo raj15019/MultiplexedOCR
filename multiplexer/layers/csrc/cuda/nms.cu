@@ -6,7 +6,7 @@
 // TODO: use the following instead once it's available under torch/include/ATen
 // #include <ATen/ceil_div.h>
 
-#include <THC/THC.h>
+// #include <THC/THC.h>
 
 #include <iostream>
 #include <vector>
