@@ -99,8 +99,6 @@ at::Tensor nms_cuda(const at::Tensor boxes, float nms_overlap_thresh) {
   // KRR; Commented below line
   // THCState *state = at::globalContext().lazyInitCUDA(); // TODO replace with getTHCState
   
-  getTHCState *state = at::globalContext().lazyInitCUDA(); // TODO replace with getTHCState
-
   
   unsigned long long *mask_dev = NULL;
   // THCudaCheck(THCudaMalloc(state, (void**) &mask_dev,
@@ -110,7 +108,7 @@ at::Tensor nms_cuda(const at::Tensor boxes, float nms_overlap_thresh) {
   // mask_dev = (unsigned long long *)THCudaMalloc(state, boxes_num * col_blocks * sizeof(unsigned long long));
   
   // KRR: Adding below line
-  mask_dev = (unsigned long long *)cudaMalloc(state, boxes_num * col_blocks * sizeof(unsigned long long));
+  TORCH_CHECK(cudaMalloc((void**) &mask_dev, boxes_num * col_blocks * sizeof(unsigned long long)) == cudaSuccess);
 
   dim3 blocks(at::ceil_div(boxes_num, threadsPerBlock),
               at::ceil_div(boxes_num, threadsPerBlock));
@@ -123,7 +121,8 @@ at::Tensor nms_cuda(const at::Tensor boxes, float nms_overlap_thresh) {
   // THCudaCheck(cudaMemcpy(&mask_host[0], mask_dev, sizeof(unsigned long long) * boxes_num * col_blocks, cudaMemcpyDeviceToHost));
   
   // KRR: Adding below one line
-  TORCH_CHECK(cudaMalloc((void**) &mask_dev, boxes_num * col_blocks * sizeof(unsigned long long)) == cudaSuccess);
+  // TORCH_CHECK(cudaMalloc((void**) &mask_dev, boxes_num * col_blocks * sizeof(unsigned long long)) == cudaSuccess);
+  TORCH_CHECK(cudaMemcpy(&mask_host[0], mask_dev, sizeof(unsigned long long) * boxes_num * col_blocks, cudaMemcpyDeviceToHost) == cudaSuccess);
 
   std::vector<unsigned long long> remv(col_blocks);
   memset(&remv[0], 0, sizeof(unsigned long long) * col_blocks);
