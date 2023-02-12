@@ -298,7 +298,8 @@ ROIAlign_forward_cuda(const at::Tensor &input, const at::Tensor &rois,
   dim3 block(512);
 
   if (output.numel() == 0) {
-    THCudaCheck(cudaGetLastError());
+    // THCudaCheck(cudaGetLastError());
+    TORCH_CHECK(cudaGetLastError() == cudaSuccess);
     return output;
   }
 
@@ -308,7 +309,8 @@ ROIAlign_forward_cuda(const at::Tensor &input, const at::Tensor &rois,
         channels, height, width, pooled_height, pooled_width, sampling_ratio,
         rois.contiguous().data<scalar_t>(), output.data<scalar_t>());
   });
-  THCudaCheck(cudaGetLastError());
+  // THCudaCheck(cudaGetLastError());
+  TORCH_CHECK(cudaGetLastError() == cudaSuccess);
   return output;
 }
 
@@ -334,7 +336,8 @@ at::Tensor ROIAlign_backward_cuda(const at::Tensor &grad,
 
   // handle possibly empty gradients
   if (grad.numel() == 0) {
-    THCudaCheck(cudaGetLastError());
+    // THCudaCheck(cudaGetLastError());
+    TORCH_CHECK(cudaGetLastError() == cudaSuccess);
     return grad_input;
   }
 
@@ -345,6 +348,7 @@ at::Tensor ROIAlign_backward_cuda(const at::Tensor &grad,
         sampling_ratio, grad_input.data<scalar_t>(),
         rois.contiguous().data<scalar_t>());
   });
-  THCudaCheck(cudaGetLastError());
+  // THCudaCheck(cudaGetLastError());
+  TORCH_CHECK(cudaGetLastError() == cudaSuccess);
   return grad_input;
 }
