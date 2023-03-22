@@ -5,7 +5,17 @@ import os
 
 import torch
 from setuptools import find_packages, setup
-from torch.utils.cpp_extension import CUDA_HOME, CppExtension, CUDAExtension
+from torch.utils.cpp_extension import CUDA_HOME, CppExtension, CUDAExtension, BuildExtension
+
+extra_compile_args = {'cxx': ['-O3'],
+                      'nvcc': ['-O3', '--compiler-options', "'-fPIC'"],
+                      'cpp': ['-O3', '-Wno-reorder']}
+include_dirs = ['/usr/local/cuda/include']
+library_dirs = ['/usr/local/cuda/lib64']
+libraries = ['cudart']
+define_macros = [('WITH_CUDA', None)]
+undef_macros = ['NDEBUG']
+optional = True
 
 requirements = ["torch", "torchvision"]
 
@@ -26,7 +36,21 @@ def get_extensions():
 
     if torch.cuda.is_available() and CUDA_HOME is not None:
         # if True:
-        extension = CUDAExtension
+        # extension = CUDAExtension
+        
+        extension = CUDAExtension(name='multiplexer._C',
+                    sources=['src/multiplexer.cpp',
+                             'src/multiplexer_cuda.cu'],
+                    extra_compile_args=extra_compile_args,
+                    include_dirs=include_dirs,
+                    library_dirs=library_dirs,
+                    libraries=libraries,
+                    define_macros=define_macros,
+                    undef_macros=undef_macros,
+                    optional=optional,
+                    version='11.8')
+        
+        
         sources += source_cuda
         define_macros += [("WITH_CUDA", None)]
         extra_compile_args["nvcc"] = [
@@ -56,8 +80,8 @@ def get_extensions():
 setup(
     name="Multiplexer",
     version="1.0",
-    author="jinghuang",
-    url="https://github.com/facebookresearch/MultiplexedOCR",
+    author="raj15019",
+    url="https://github.com/raj15019/MultiplexedOCR",
     description="Multiplexed OCR",
     packages=find_packages(
         exclude=(
@@ -68,5 +92,5 @@ setup(
     ),
     # install_requires=requirements,
     ext_modules=get_extensions(),
-    cmdclass={"build_ext": torch.utils.cpp_extension.BuildExtension},
+    cmdclass={"build_ext": torch.utils.cpp_extension.BuildExtension.with_options(use_ninja=False)}
 )
