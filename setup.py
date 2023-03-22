@@ -68,7 +68,7 @@ def get_extensions():
         extension(
             "multiplexer._C",
             sources,
-            include_dirs=include_dirs,
+            include_dirs=include_dirs_r,
             define_macros=define_macros,
             extra_compile_args=extra_compile_args,
         )
