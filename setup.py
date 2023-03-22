@@ -10,8 +10,8 @@ from torch.utils.cpp_extension import CUDA_HOME, CppExtension, CUDAExtension, Bu
 extra_compile_args = {'cxx': ['-O3'],
                       'nvcc': ['-O3', '--compiler-options', "'-fPIC'"],
                       'cpp': ['-O3', '-Wno-reorder']}
-include_dirs = ['/usr/local/cuda/include']
-library_dirs = ['/usr/local/cuda/lib64']
+include_dirs_r = ['/usr/local/cuda/include']
+library_dirs_r = ['/usr/local/cuda/lib64']
 libraries = ['cudart']
 define_macros = [('WITH_CUDA', None)]
 undef_macros = ['NDEBUG']
@@ -42,8 +42,8 @@ def get_extensions():
                     sources=['src/multiplexer.cpp',
                              'src/multiplexer_cuda.cu'],
                     extra_compile_args=extra_compile_args,
-                    include_dirs=include_dirs,
-                    library_dirs=library_dirs,
+                    include_dirs=include_dirs_r,
+                    library_dirs=library_dirs_r,
                     libraries=libraries,
                     define_macros=define_macros,
                     undef_macros=undef_macros,
