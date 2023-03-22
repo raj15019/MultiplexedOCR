@@ -36,18 +36,18 @@ def get_extensions():
 
     if torch.cuda.is_available() and CUDA_HOME is not None:
         # if True:
-        # extension = CUDAExtension
+        extension = CUDAExtension
         
-        extension = CUDAExtension(name='multiplexer._C',
-                    sources=['src/multiplexer.cpp',
-                             'src/multiplexer_cuda.cu'],
-                    extra_compile_args=extra_compile_args,
-                    library_dirs=library_dirs,
-                    libraries=libraries,
-                    define_macros=define_macros,
-                    undef_macros=undef_macros,
-                    optional=optional,
-                    version='11.8')
+        # extension = CUDAExtension(name='multiplexer._C',
+        #            sources=['src/multiplexer.cpp',
+        #                     'src/multiplexer_cuda.cu'],
+        #            extra_compile_args=extra_compile_args,
+        #            library_dirs=library_dirs,
+        #            libraries=libraries,
+        #            define_macros=define_macros,
+        #            undef_macros=undef_macros,
+        #            optional=optional,
+        #            version='11.8')
         
         
         sources += source_cuda
@@ -70,6 +70,7 @@ def get_extensions():
             include_dirs=include_dirs,
             define_macros=define_macros,
             extra_compile_args=extra_compile_args,
+            version='11.8'
         )
     ]
 
