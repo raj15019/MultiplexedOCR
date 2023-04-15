@@ -1,7 +1,7 @@
 # based on v2
 # inherited by: v13
 CHAR_MAP:
-  DIR: /checkpoint/jinghuang/multiplexer/charmap/public/v3/
+  DIR: /charmap/public/v3/
 DATALOADER:
   ASPECT_RATIO_GROUPING: false
   NUM_WORKERS: 4
