@@ -1100,7 +1100,8 @@ def render_box_multi_text(cfg, image, result_logs_dict, resize_ratio, det_thresh
         renderer.fonts = {0: ImageFont.load_default()}
         print("[Info] fonts initiated.")
 
-    font_path = "/checkpoint/jinghuang/fonts/Arial-Unicode-Regular.ttf"
+    # font_path = "/checkpoint/jinghuang/fonts/Arial-Unicode-Regular.ttf"
+    font_path = "/content/MultiplexedOCR/fonts/Arial-Unicode-Regular.ttf"
     if not os.path.exists(font_path):
         use_default_font = True
         logger.warning("[Warning] Font {} doesn't exist, using default.".format(font_path))
