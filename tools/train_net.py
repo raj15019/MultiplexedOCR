@@ -164,7 +164,7 @@ def parse_args(in_args=None):
     parser.add_argument("--eval-only", action="store_true", help="perform evaluation only")
     # parser.add_argument("--local_rank", type=int, default=0)
     parser.add_argument("--no-color", action="store_true", help="disable colorful logging")
-    parser.add_argument("--num-gpus", type=int, default=8, help="number of gpus per machine")
+    parser.add_argument("--num-gpus", type=int, default=1, help="number of gpus per machine")
     parser.add_argument("--num-machines", type=int, default=1)
     parser.add_argument(
         "--machine-rank",
