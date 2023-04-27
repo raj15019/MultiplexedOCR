@@ -106,7 +106,9 @@ def _distributed_worker(
         logger.error("Process group URL: {}".format(dist_url))
         raise e
 
+    print("num_gpus_per_machine")
     print(num_gpus_per_machine)
+    print("torch.cuda.device_count")
     print(torch.cuda.device_count())
     assert num_gpus_per_machine <= torch.cuda.device_count()
 
