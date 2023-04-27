@@ -6,7 +6,8 @@ import os
 
 class DatasetCatalog(object):
     # public datasets
-    PUBLIC_DATASET_ROOT = "/checkpoint/jinghuang/datasets"
+    # PUBLIC_DATASET_ROOT = "/checkpoint/jinghuang/datasets"
+    PUBLIC_DATASET_ROOT = "/content/drive/MyDrive/OCR/datasets"
     SYNTHTEXT_MLT_ZIP_ROOT = f"{PUBLIC_DATASET_ROOT}/MLT19_Synthetic/"
     MSRATD500_ROOT = f"{PUBLIC_DATASET_ROOT}/MSRA-TD500"
     ICDAR15_ROOT = f"{PUBLIC_DATASET_ROOT}/ICDAR15"
