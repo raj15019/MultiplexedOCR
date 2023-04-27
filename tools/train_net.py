@@ -190,7 +190,7 @@ def detectron2_launch(args):
     cfg.freeze()
     # extract_datasets(cfg)
     print("Local Rank and Num of GPU >> 2")
-    print(args.local_rank)
+    # print(args.local_rank)
     print(args.num_gpus)
     launch(
         main,
