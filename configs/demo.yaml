@@ -1,5 +1,5 @@
 CHAR_MAP:
-  DIR: /charmap/public/v3/
+  DIR: /content/MultiplexedOCR/charmap/public/v3/
 DATALOADER:
   ASPECT_RATIO_GROUPING: false
   NUM_WORKERS: 4
