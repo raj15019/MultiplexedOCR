@@ -129,7 +129,11 @@ def main(cfg, args):
         args.local_rank = get_rank() % args.num_gpus
     else:
         args.local_rank = 0
-
+    
+    print("Local Rank and Num of GPU")
+    print(args.local_rank)
+    print(args.num_gpus)
+    
     output_dir = cfg.OUTPUT_DIR
     if output_dir:
         os.makedirs(output_dir, exist_ok=True)
